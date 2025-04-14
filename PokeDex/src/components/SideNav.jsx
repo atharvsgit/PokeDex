@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { first151Pokemon, getFullPokedexNumber } from '../utils'
 
 export default function SideNav(props){
-    const { selectedPokemon, setSelectedPokemon } = props
+    const { selectedPokemon, setSelectedPokemon, handleCloseMenu, showSideMenu } = props
 
     const [ searchValue, setSearchValue] = useState('')
 
@@ -14,8 +14,11 @@ export default function SideNav(props){
     })
 
     return(
-    <nav>
-        <div className={'header'}>
+    <nav className={' '+(!showSideMenu ? " open" : "")}>
+        <div className={'header '+(!showSideMenu ? " open" : "")}>
+            <button onClick={handleCloseMenu} className='open-nav-button'>
+            <i className="fa-solid fa-arrow-left-long"></i>
+            </button>
             <h1 className='text-gradient'>PokéDex</h1>
         </div>
         <input placeholder='E.g. 001 or Bulba...' value={searchValue} onChange={(e) => {
@@ -26,6 +29,7 @@ export default function SideNav(props){
             return (
                 <button onClick={() => {
                     setSelectedPokemon(truePokedexNumber)
+                    handleCloseMenu()
                 }} 
                 key={pokemon} className={'nav-card '+(pokemonIndex === selectedPokemon ? 'nav-card-selected ': ' ')}>
                     <p>{getFullPokedexNumber(truePokedexNumber)}</p>
